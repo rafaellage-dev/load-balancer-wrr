@@ -43,5 +43,3 @@ Status: Processado com Sucesso
 
 Identificação do Nó: Servidor Fraco (Peso 1)
 Status: Processado com Sucesso
-
-```
