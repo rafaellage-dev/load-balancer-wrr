@@ -6,23 +6,37 @@
 
 ---
 
-## 1. Descrição e Contexto do Projeto
-Este projeto consiste no desenvolvimento completo e prático de um **Load Balancer (Balanceador de Carga) de Camada 7 (HTTP)** construído puramente na linguagem Go, atuando como um Proxy Reverso.
+Este repositório apresenta a implementação de um balanceador de carga desenvolvido na linguagem Go, focado no atendimento dos requisitos estabelecidos para o Cenário B da disciplina. A arquitetura do projeto foi construída utilizando Docker Compose para orquestrar quatro contêineres: um atuando como o Load Balancer principal, exposto na porta 8000, e três instâncias de servidores backend, operando internamente na porta 8080, que simulam diferentes capacidades de processamento.
 
-O foco central deste repositório foi solucionar os desafios do **Cenário B (Weighted Round-Robin)**, mapeando cenários reais de engenharia de confiabilidade (SRE/Infraestrutura) onde os servidores de destino possuem capacidades computacionais assimétricas (heterogeneidade de hardware).
+Para a distribuição do tráfego, foi adotado o algoritmo Weighted Round Robin (WRR). A configuração atribui pesos específicos a cada nó da rede, de modo a rotear as requisições de forma proporcional à capacidade simulada de cada máquina. Dessa forma, definiu-se o Servidor Potente com peso 3, o Servidor Médio com peso 2 e o Servidor Fraco com peso 1.
 
----
+Para executar a aplicação, é necessário ter o Docker e o Docker Compose instalados no ambiente. A inicialização da infraestrutura é feita executando o comando `docker compose up --build -d` na raiz do diretório. Com os contêineres em execução, a validação da lógica do algoritmo pode ser realizada por meio de um teste de carga contendo seis requisições.
 
-## 2. Tecnologias Utilizadas e Requisitos Atendidos
-* **Linguagem Go (Pure Go):** Lógica desenvolvida sem bibliotecas externas de roteamento. Uso de primitivas nativas de concorrência como `sync.RWMutex` para exclusão mútua concorrente e exclusão em leitura de estados e `sync/atomic` para operações atômicas seguras no ponteiro circular de roteamento.
-* **Mecanismo Ativo de Health Check:** Uma Goroutine em background executa testes de integridade assíncronos a cada 5 segundos na rota `/health` de cada nó. Se um nó for detectado como instável ou inativo, ele é excluído da lista de tráfego instantaneamente até sua plena recuperação.
-* **Infraestrutura em Containers:** Utilização do `Docker` e `Docker Compose` isolando 3 réplicas de nós simulados com variáveis de ambiente distintas e 1 container isolado para o Balanceador de Carga.
+Executando o comando `for i in {1..6}; do curl -s http://localhost:8000; echo ""; done` no terminal, é possível observar o roteamento exato estabelecido pelos pesos. O resultado esperado exibirá a seguinte distribuição, comprovando a eficácia do balanceamento de carga implementado:
 
----
+```text
+=== Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Potente (Peso 3)
+Status: Processado com Sucesso
 
-## 3. Como Executar a Infraestrutura (Comando Único)
+=== Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Potente (Peso 3)
+Status: Processado com Sucesso
 
-Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina de testes. Na raiz do projeto, execute o comando abaixo para realizar o build das imagens personalizadas e subir o ecossistema completo:
+=== Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Potente (Peso 3)
+Status: Processado com Sucesso
 
-```bash
-docker-compose up --build
+=== Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Medio (Peso 2)
+Status: Processado com Sucesso
+
+=== Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Medio (Peso 2)
+Status: Processado com Sucesso
+
+=== Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Fraco (Peso 1)
+Status: Processado com Sucesso
+
+```
