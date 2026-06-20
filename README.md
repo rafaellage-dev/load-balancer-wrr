@@ -16,7 +16,7 @@ Para executar a aplicação, é necessário ter o Docker e o Docker Compose inst
 
 Executando o comando "for i in {1..6}; do curl -s http://localhost:8000; echo ""; done" no terminal, é possível observar o roteamento exato estabelecido pelos pesos. O resultado esperado exibirá a seguinte distribuição, comprovando a eficácia do balanceamento de carga implementado:
 
-```text
+
 === Resposta do Servidor Backend ===
 Identificação do Nó: Servidor Potente (Peso 3)
 Status: Processado com Sucesso
@@ -38,6 +38,9 @@ Identificação do Nó: Servidor Medio (Peso 2)
 Status: Processado com Sucesso
 
 === Resposta do Servidor Backend ===
+Identificação do Nó: Servidor Fraco (Peso 1)
+Status: Processado com Sucesso
+
 Identificação do Nó: Servidor Fraco (Peso 1)
 Status: Processado com Sucesso
 
