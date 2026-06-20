@@ -1,7 +1,9 @@
 # Projeto Prático: Desenvolvimento de Balanceador de Carga
 
 **Estudante:** Rafael Nogueira Lage
-**Cenário: ** Cenário B - Weighted Round-Robin (Round-Robin com Pesos)
+
+**Cenário:** Cenário B - Weighted Round-Robin (Round-Robin com Pesos)
+
 **Professor Orientador:** Kaynan Macedo de Souza
 
 ---
