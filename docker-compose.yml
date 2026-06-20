@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend_potente:
+    build: ./backend
+    container_name: backend_potente
+    environment:
+      - SERVER_NAME=Servidor Potente (Peso 3)
+    expose:
+      - "8080"
+
+  backend_medio:
+    build: ./backend
+    container_name: backend_medio
+    environment:
+      - SERVER_NAME=Servidor Medio (Peso 2)
+    expose:
+      - "8080"
+
+  backend_fraco:
+    build: ./backend
+    container_name: backend_fraco
+    environment:
+      - SERVER_NAME=Servidor Fraco (Peso 1)
+    expose:
+      - "8080"
+
+  balancer:
+    build: ./balancer
+    container_name: load_balancer
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend_potente
+      - backend_medio
+      - backend_fraco
