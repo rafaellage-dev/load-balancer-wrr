@@ -12,9 +12,9 @@ Este repositório apresenta a implementação de um balanceador de carga desenvo
 
 Para a distribuição do tráfego, foi adotado o algoritmo Weighted Round Robin (WRR). A configuração atribui pesos específicos a cada nó da rede, de modo a rotear as requisições de forma proporcional à capacidade simulada de cada máquina. Dessa forma, definiu-se o Servidor Potente com peso 3, o Servidor Médio com peso 2 e o Servidor Fraco com peso 1.
 
-Para executar a aplicação, é necessário ter o Docker e o Docker Compose instalados no ambiente. A inicialização da infraestrutura é feita executando o comando `docker compose up --build -d` na raiz do diretório. Com os contêineres em execução, a validação da lógica do algoritmo pode ser realizada por meio de um teste de carga contendo seis requisições.
+Para executar a aplicação, é necessário ter o Docker e o Docker Compose instalados no ambiente. A inicialização da infraestrutura é feita executando o comando "docker compose up --build -d" na raiz do diretório. Com os contêineres em execução, a validação da lógica do algoritmo pode ser realizada por meio de um teste de carga contendo seis requisições.
 
-Executando o comando `for i in {1..6}; do curl -s http://localhost:8000; echo ""; done` no terminal, é possível observar o roteamento exato estabelecido pelos pesos. O resultado esperado exibirá a seguinte distribuição, comprovando a eficácia do balanceamento de carga implementado:
+Executando o comando "for i in {1..6}; do curl -s http://localhost:8000; echo ""; done" no terminal, é possível observar o roteamento exato estabelecido pelos pesos. O resultado esperado exibirá a seguinte distribuição, comprovando a eficácia do balanceamento de carga implementado:
 
 ```text
 === Resposta do Servidor Backend ===
